@@ -452,6 +452,59 @@ bool Combo::performSubstitution(bool triggeredByPicker) {
     return true;
 }
 
+bool Combo::performSubstitution(int sz, bool triggeredByPicker) {
+    bool cancelled = false;
+    QMap<QString, QString> knownInputVariables;
+    QSet<QString> const forbiddenSubcombos;
+    QString newText = this->evaluatedSnippet(cancelled, forbiddenSubcombos,
+                                             knownInputVariables);
+    if (cancelled) return false;
+    if (!knownInputVariables.isEmpty()) {
+        // we displayed the input variable dialog at least once. Some slow/heavy
+        // application (Electron-based stuff like Slack & al. for instance) will
+        // need some time to properly regain focus.
+        qApp->thread()->msleep(300);
+    }
+
+    qint32 const cursorLShift = computeCursorLeftShift(newText);
+    if (cursorLShift >= 0)
+        newText = newText.remove(kCursorVariable, Qt::CaseInsensitive);
+
+    InputManager &inputManager = InputManager::instance();
+    PreferencesManager const &prefs = PreferencesManager::instance();
+    bool const wasKeyboardHookEnabled =
+        inputManager.setKeyboardHookEnabled(false);
+    // we disable the hook to prevent endless recursive substitution
+
+    try {
+        // we erase the combo
+        bool const triggersOnSpace =
+            prefs.useAutomaticSubstitution() && prefs.comboTriggersOnSpace();
+
+        if (!triggeredByPicker)
+            eraseChars(qMax<qint32>(sz + (triggersOnSpace ? 1 : 0), 0));
+
+        // we split the snippets into fragments and render them
+        ListSpSnippetFragment fragments =
+            splitStringIntoSnippetFragments(newText);
+        if ((!triggeredByPicker) &&
+            (triggersOnSpace && prefs.keepFinalSpaceCharacter()))
+            fragments.push_back(
+                std::make_shared<TextSnippetFragment>(QString(" ")));
+        renderSnippetFragmentList(fragments);
+
+        // Position the cursor if needed by typing the right amount of left
+        // keystrokes.
+        if (cursorLShift > 0) moveCursorLeft(cursorLShift);
+    } catch (Exception const &) {
+        inputManager.setKeyboardHookEnabled(wasKeyboardHookEnabled);
+        throw;
+    }
+    inputManager.setKeyboardHookEnabled(wasKeyboardHookEnabled);
+
+    lastUseDateTime_ = QDateTime::currentDateTime();
+    return true;
+}
 
 //****************************************************************************************************************************************************
 /// \param[in] includeGroup Should the group be included in the export

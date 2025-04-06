@@ -57,12 +57,19 @@ private slots:
     void onCharacterTyped(QChar c); ///< Slot for the "Character Typed" signal
     void onBackspaceTyped(); ///< Slot for the 'Backspace typed" signal
     void onSubstitutionTriggerShortcut(); ///< Slot for the triggering of the substitution shortcut
+public slots:
+    void onReplaceTriggerShortcut();
 
 private: // data member
     QString currentText_; ///< The current string
     ComboList comboList_; ///< The list of combos
     std::unique_ptr<WaveSound> sound_; ///< The sound to play when a combo is executed
     xmilib::RandomNumberGenerator rng_; ///< The RNG used to pick combos when multiple occurences are found
+
+    VecSpCombo res_;
+    size_t ind_;
+    bool flag_;
+    bool reverse_;
 };
 
 

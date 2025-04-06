@@ -1,4 +1,4 @@
-/// \file
+﻿/// \file
 /// \author Xavier Michelon
 ///
 /// \brief Implementation of combo manager class
@@ -18,9 +18,8 @@
 #include "Backup/BackupManager.h"
 #include "Emoji/EmojiManager.h"
 
-
+#include "Toast.h"
 using namespace xmilib;
-
 
 //****************************************************************************************************************************************************
 /// \return A reference to the only allowed instance of the class
@@ -221,6 +220,43 @@ bool ComboManager::checkAndPerformComboSubstitution() {
 			return strcmp(lhs.get()->name().toStdString().c_str(),
 				rhs.get()->name().toStdString().c_str()) < 0;
 		});
+	int index = 0;
+	if (result.size() > 1 && !reverse_) {
+		QString msg;
+		for (SpCombo const& combo : result) {
+			if (reverse_ && index == 0) {
+				msg += "<font color = 'yellow'>" + combo.get()->snippet() + "</font>" + " ";
+			}
+			else if (!reverse_ && index == result.size() - 1) {
+				msg += "<font color = 'orange'>" + combo.get()->snippet() + "</font>" + " ";
+			}
+			else {
+				msg += combo.get()->snippet() + " ";
+			}
+			index++;
+		}
+		msg.chop(1);
+		Toast* toast = new Toast(msg, 3000);  // 显示3秒
+		toast->show();
+	}
+	else if (currentText_ == "" && flag_ && !res_.empty()) {
+		QString msg;
+		for (SpCombo const& combo : res_) {
+			if (reverse_ && index == (ind_ == res_.size() - 1 ? 0 : ind_ + 1)) {
+				msg += "<font color = 'yellow'>" + combo.get()->snippet() + "</font>" + " ";
+			}
+			else if (!reverse_ && index == (ind_ == 0 ? res_.size() - 1 : ind_ - 1)) {
+				msg += "<font color = 'orange'>" + combo.get()->snippet() + "</font>" + " ";
+			}
+			else {
+				msg += combo.get()->snippet() + " ";
+			}
+			index++;
+		}
+		msg.chop(1);
+		Toast* toast = new Toast(msg, 3000);  // 显示3秒
+		toast->show();
+	}
 	if (currentText_ == "" && flag_) {
 		onReplaceTriggerShortcut();
 		return true;
@@ -264,7 +300,13 @@ void ComboManager::onReplaceTriggerShortcut() {
 		return;
 	}
 	QString tmp = res_[ind_].get()->snippet();
-	ind_ = (ind_ + (reverse_ ? 1 : -1)) % res_.size();
+	if (reverse_) {
+		ind_ = (ind_ == res_.size() - 1 ? 0 : ind_ + 1);
+	}
+	else {
+		ind_ = (ind_ == 0 ? res_.size() - 1 : ind_ - 1);
+	}
+	/*ind_ = (ind_ + (reverse_ ? 1 : -1)) % res_.size();*/
 	// SpCombo const combo = result[result.size() > 1 ?
 	// static_cast<quint32>(rng_.get()) % result.size() : 0];
 	SpCombo const combo = res_[ind_];

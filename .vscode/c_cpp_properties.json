@@ -1,0 +1,39 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/Beeftext/**",
+                "${workspaceFolder}/Submodules/XMiLib/XMiLib/**",
+                "${workspaceFolder}/Submodules/emojilib/**",
+                "C:/ProgramData/QtCreator/6.4.2/msvc2019_64/include/**",
+                "C:/ProgramData/QtCreator/6.4.2/msvc2019_64/include/QtCore/**",
+                "C:/ProgramData/QtCreator/6.4.2/msvc2019_64/include/QtGui/**",
+                "C:/ProgramData/QtCreator/6.4.2/msvc2019_64/include/QtWidgets/**",
+                "C:/ProgramData/QtCreator/6.4.2/msvc2019_64/include/QtNetwork/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "WIN32",
+                "_WIN32",
+                "BEEFTEXT_VERSION_MAJOR=24",
+                "BEEFTEXT_VERSION_MINOR=0",
+                "BEEFTEXT_VERSION_PATCH=0",
+                "QT_CORE_LIB",
+                "QT_GUI_LIB",
+                "QT_WIDGETS_LIB",
+                "QT_NETWORK_LIB"
+            ],
+            "windowsSdkVersion": "10.0.19041.0",
+            "compilerPath": "C:/Program Files/LLVM/bin/clang-cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-clang-x64",
+            "compileCommands": "${workspaceFolder}/out/build/MSVC/compile_commands.json"
+        }
+    ],
+    "version": 4
+}

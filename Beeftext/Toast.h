@@ -13,7 +13,6 @@ class Toast : public QWidget {
 public:
 	Toast(const QString& message, int durationMs = 2000, QWidget* parent = nullptr)
 		: QWidget(parent) {
-		// ????? Toast ????????
 		if (lastInstance) {
 			lastInstance->close();
 			delete lastInstance;

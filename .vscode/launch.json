@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Beeftext (MSVC)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/out/build/MSVC/Beeftext/Debug/Beeftext.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/out/build/MSVC/Beeftext/Debug",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "Build Debug"
+        }
+    ]
+}

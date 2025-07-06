@@ -31,8 +31,7 @@
             "compilerPath": "C:/Program Files/LLVM/bin/clang-cl.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "windows-clang-x64",
-            "compileCommands": "${workspaceFolder}/out/build/MSVC/compile_commands.json"
+            "intelliSenseMode": "windows-clang-x64"
         }
     ],
     "version": 4

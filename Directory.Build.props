@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!--
+    Qt VS Tools sets QtMsBuild when building from the IDE. For MSBuild from a developer
+    command prompt or CI, fall back to the QtMsBuild directory installed with Qt VS Tools.
+  -->
+  <PropertyGroup>
+    <QtMsBuild Condition="('$(QtMsBuild)' == '' or !Exists('$(QtMsBuild)\qt.targets')) and Exists('$(LOCALAPPDATA)\QtMsBuild\qt.targets')">$(LOCALAPPDATA)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+</Project>

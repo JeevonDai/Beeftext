@@ -10,6 +10,12 @@
 #ifndef BEEFTEXT_STDAFX_H
 #define BEEFTEXT_STDAFX_H
 
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <Windows.h>
+#endif
 
 #include <QtWidgets>
 #include <QtNetwork>

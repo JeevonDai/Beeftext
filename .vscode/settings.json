@@ -1,3 +1,9 @@
 {
-    "autocorrect.formatOnSave": false
+    "autocorrect.formatOnSave": false,
+    "files.associations": {
+        "*.m": "matlab",
+        "*.html": "html",
+        "qtwidgets": "cpp",
+        "qtnetwork": "cpp"
+    }
 }
